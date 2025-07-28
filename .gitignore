@@ -1,2 +1,15 @@
 task1/node_modules
 task2/node_modules
+npm-debug.log
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
