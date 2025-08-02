@@ -6,18 +6,13 @@ exports.getAllProducts = (req, res, next) => {
         const result = productService.getAllProducts();
         res.send(result);
     } catch (err) {
-        next(err); // pass to centralized error handler
+        next(err); 
     }
 };
 
 exports.getProductById = (req, res, next) => {
     try {
         const { id } = req.params;
-
-        if (!id) {
-            throw new AppError("Product ID is required", 400);
-        }
-
         const result = productService.getProductById(id);
         res.send(result);
     } catch (err) {
