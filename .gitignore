@@ -4,6 +4,7 @@ task3/node_modules
 Question-Routes/node_modules
 U-Routes/node_modules
 D-Routes/node_modules
+mysql-conn/node_modules
 npm-debug.log
 .env
 
