@@ -5,6 +5,7 @@ Question-Routes/node_modules
 U-Routes/node_modules
 D-Routes/node_modules
 mysql-conn/node_modules
+bus_booking_system/node_modules
 npm-debug.log
 .env
 
