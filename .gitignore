@@ -9,6 +9,7 @@ bus_booking_system/node_modules
 Student_Management_API/node_modules
 Sequelize/node_modules
 BusWithSequelize/node_modules
+FullStackBooking/node_modules
 npm-debug.log
 .env
 
