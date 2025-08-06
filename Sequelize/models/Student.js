@@ -14,6 +14,8 @@ const Student = sequelize.define('Student', {
     age: {
         type: DataTypes.INTEGER
     }
+}, {
+    timestamps: false 
 });
 
 module.exports = Student;
