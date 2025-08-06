@@ -18,6 +18,20 @@ app.post('/add-student', async (req, res) => {
     }
 });
 
+app.get('/students', async (req, res) => {
+    const students = await Student.findAll();
+    res.json(students);
+});
+
+
+app.get('/students/:id', async (req, res) => {
+    const student = await Student.findByPk(req.params.id);
+    if (student) res.json(student);
+    else res.status(404).json({ error: 'Student not found' });
+});
+
+
+
 
 
 sequelize.sync()
