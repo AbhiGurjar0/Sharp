@@ -7,6 +7,7 @@ D-Routes/node_modules
 mysql-conn/node_modules
 bus_booking_system/node_modules
 Student_Management_API/node_modules
+Sequelize/node_modules
 npm-debug.log
 .env
 
