@@ -20,6 +20,14 @@ router.post("/addUser", (req, res) => {
 
     })
 })
+router.get("/users", (req, res) => {
+    const sql = 'SELECT * FROM users';
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        return res.json({ users: result })
+    })
+
+})
 
 router.put("/updateUser/:id", (req, res) => {
     const { name, email } = req.body;
