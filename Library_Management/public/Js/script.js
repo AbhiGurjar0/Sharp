@@ -7,7 +7,6 @@ async function getData() {
     console.log(res);
 
     res.forEach((book) => {
-        // Determine fine status for conditional styling
         const hasFine = book.totalFine && book.totalFine > 0;
 
         Books.innerHTML += `
@@ -16,10 +15,10 @@ async function getData() {
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold text-white mb-2">Book Name: ${book.bookName}</h3>
                         <p class="text-gray-300 leading-relaxed mb-2">
-                            <span class="font-semibold">Book taken on:</span> ${book.alloteDate}
+                            <span class="font-semibold">Book taken on:</span> ${formatDate(book.alloteDate)}
                         </p>
                         <p class="text-gray-300 leading-relaxed mb-2">
-                            <span class="font-semibold">Book return date:</span> ${book.dueDate}
+                            <span class="font-semibold">Book return date:</span> ${formatDate(book.dueDate)}
                         </p>
                         <p class="text-green-400 font-semibold">Current fine: ${book.totalFine}</p>
                     </div>
@@ -71,15 +70,27 @@ async function slip() {
     const response = await fetch('/slip');
     const res = await response.json();
     let retruns = document.getElementById("Returns");
-    retruns.innerHTML = '';  // clear existing content
+
+    retruns.innerHTML = ''; 
     res.forEach((ret) => {
         retruns.innerHTML += `
   <article class="text-white">
                     <h3 class="text-lg font-semibold mb-1">Book Name: ${ret.bookName}</h3>
                     <p class="mb-1 text-gray-300"><span class="font-semibold">Fine:</span> ${ret.totalFine}</p>
-                    <p class="text-gray-300"><span class="font-semibold">Returned on:</span> ${ret.returnDate}
+                    <p class="text-gray-300"><span class="font-semibold">Returned on:</span> ${formatDate(ret.returnDate)}
                     </p>
                 </article>`;
     });
 }
 slip();
+function formatDate(dateString) {
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+    return new Date(dateString).toLocaleString('en-US', options);
+}

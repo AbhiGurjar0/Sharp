@@ -1,7 +1,7 @@
 const Book = require('../models/book')
 const path = require('path')
-const dayjs = require("dayjs");
 const Returned = require('../models/return');
+
 
 
 exports.show = async (req, res) => {
@@ -11,23 +11,21 @@ exports.show = async (req, res) => {
 exports.sendData = async (req, res) => {
     const books = await Book.findAll();
 
-    books.forEach(book => {
+
+    await Promise.all(books.map(async (book) => {
         const dueDate = new Date(book.dueDate);
         const diffMs = new Date() - dueDate;
         const diffHrs = Math.max(0, Math.floor(diffMs / 1000 / 60 / 60));
-        book.totalFine += (diffHrs * 100);
-        
-    });
+        book.totalFine = diffHrs * 100;
 
 
 
-    res.json(
-        books
-        ,
+        await book.save();
+    }));
 
-
-    );
+    res.json(books);
 }
+
 exports.addbook = async (req, res) => {
     const { bookName } = req.body;
 
