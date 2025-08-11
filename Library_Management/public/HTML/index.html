@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Library Book Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for book cards container */
+        .scrollbar-thin::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #1e40af;
+            /* Tailwind blue-800 */
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #3b82f6;
+            /* Tailwind blue-500 */
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-blue-900 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-blue-800 shadow-md p-4 sticky top-0 z-50">
+        <h1 class="text-3xl font-semibold text-white drop-shadow-md select-none">Library Book Management</h1>
+    </header>
+
+    <!-- Main content container -->
+    <main class="flex-grow container mx-auto p-6 space-y-10">
+
+        <!-- Book search input form -->
+        <section>
+            <form class="flex max-w-xl mx-auto" method="post" action="/addbook">
+                <label for="bookName" class="sr-only">Book name input</label>
+                <input id="bookName" type="text" placeholder="Please enter Book name"
+                    class="flex-grow px-4 py-3 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 font-medium"
+                    aria-label="Book name input" name="bookName" />
+                <button type="submit"
+                    class="bg-black text-green-500 px-6 font-semibold rounded-r-md hover:bg-green-600 hover:text-white transition-all duration-300">
+                    Submit
+                </button>
+            </form>
+        </section>
+
+        <!-- Active borrowed books -->
+        <section>
+            <h2 class="text-xl font-bold text-white mb-6 border-b-2 border-green-400 w-max pb-1 select-none">Currently
+                Borrowed Books</h2>
+
+            <div id="AllotedBooks"
+                class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 scrollbar-thin overflow-x-auto py-2">
+
+
+
+            </div>
+        </section>
+
+        <!-- Returned books -->
+        <section>
+            <h2 class="text-xl font-bold text-white mb-6 border-b-2 border-yellow-400 w-max pb-1 select-none">Returned
+                Books</h2>
+
+            <div id="Returns" class="space-y-6 max-w-4xl mx-auto bg-gray-800 rounded-lg p-6 shadow-lg drop-shadow-lg">
+
+
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <script src="../Js/script.js"></script>
+</body>
+
+</html>

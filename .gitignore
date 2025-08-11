@@ -13,6 +13,7 @@ FullStackBooking/node_modules
 AssociationMtoM/node_modules
 BusMtoM/node_modules
 FullStackExpense/node_modules
+Library_Management/node_modules
 npm-debug.log
 .env
 
