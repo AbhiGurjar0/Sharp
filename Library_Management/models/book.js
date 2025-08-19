@@ -16,9 +16,9 @@ const Book = sequelize.define('Book', {
         type: DataTypes.DATE,
         allowNull: false,
     },
+    
     totalFine:{
         type:DataTypes.INTEGER,
-        defaultValue:0,
     }
 }
     , {

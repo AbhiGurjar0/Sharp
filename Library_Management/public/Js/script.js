@@ -71,7 +71,7 @@ async function slip() {
     const res = await response.json();
     let retruns = document.getElementById("Returns");
 
-    retruns.innerHTML = ''; 
+    retruns.innerHTML = '';
     res.forEach((ret) => {
         retruns.innerHTML += `
   <article class="text-white">

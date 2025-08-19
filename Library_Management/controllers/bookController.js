@@ -15,10 +15,9 @@ exports.sendData = async (req, res) => {
     await Promise.all(books.map(async (book) => {
         const dueDate = new Date(book.dueDate);
         const diffMs = new Date() - dueDate;
+
         const diffHrs = Math.max(0, Math.floor(diffMs / 1000 / 60 / 60));
         book.totalFine = diffHrs * 100;
-
-
 
         await book.save();
     }));
@@ -36,8 +35,9 @@ exports.addbook = async (req, res) => {
         bookName,
         alloteDate,
         dueDate,
-
     })
+    await book.save();
+
     res.redirect('/');
 }
 
