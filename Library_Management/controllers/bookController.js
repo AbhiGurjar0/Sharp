@@ -16,7 +16,7 @@ exports.sendData = async (req, res) => {
         const dueDate = new Date(book.dueDate);
         const diffMs = new Date() - dueDate;
 
-        const diffHrs = Math.max(0, Math.floor(diffMs / 1000 / 60 / 60));
+        const diffHrs = Math.max(0, Math.floor(diffMs / 1000 /60/60));
         book.totalFine = diffHrs * 100;
 
         await book.save();
@@ -30,7 +30,7 @@ exports.addbook = async (req, res) => {
 
     const alloteDate = new Date();
     const dueDate = new Date(alloteDate);
-    dueDate.setHours(alloteDate.getHours() + 1);
+    dueDate.setHours(alloteDate.getHours()+1 );
     const book = await Book.create({
         bookName,
         alloteDate,
