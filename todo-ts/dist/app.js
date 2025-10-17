@@ -71,4 +71,3 @@ class TodoApp {
 }
 new TodoApp();
 export {};
-//# sourceMappingURL=app.js.map
