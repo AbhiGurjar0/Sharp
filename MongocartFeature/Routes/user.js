@@ -68,4 +68,13 @@ router.get("/orders", isLoggedIn, async (req, res) => {
   let orders = await Orders.find({ user: req.user.id }).populate("product");
   res.render("/orders", { orders });
 });
+router.post("/cart/delete/:productId", isLoggedIn, async (req, res) => {
+  let { productId } = req.params;
+  await User.findByIdAndUpdate(
+    req.user.id,
+    { $pull: { cart: { itemId: productId } } },
+    { new: true }
+  );
+  res.json(`Removed product ${productId} from cart.`);
+});
 module.exports = router;
