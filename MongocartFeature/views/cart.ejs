@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Cart UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-[Inter] flex justify-center items-start py-10">
+
+    <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8 px-4">
+        <!-- CART ITEMS -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-md p-6 space-y-4">
+            <h2 class="text-2xl font-semibold mb-4">Your Cart</h2>
+
+            <!-- ITEM CARD -->
+            <%cartItems.forEach(item=> {%>
+                <div class="flex items-center justify-between border rounded-xl p-4 hover:shadow-md transition">
+                    <div class="flex items-center gap-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s"
+                            class="w-20 h-20 object-cover object-right rounded-lg" alt="">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">
+                                <%=item.itemId?.name%>
+                            </h3>
+                            <p class="text-sm text-gray-500">
+                                <%=item.itemId?.desc%>
+                            </p>
+                            <p class="text-sm font-medium text-gray-700 mt-1">₹<%=item.itemId?.price%>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="dec(this,'<%=item.itemId?._id%>')"
+                            class="text-gray-600 hover:text-gray-800 border rounded-md px-2 py-1">−</button>
+                        <span class="w-6 text-center font-medium">
+                            <%=item.quantity%>
+                        </span>
+                        <button class="text-gray-600 hover:text-gray-800 border rounded-md px-2 py-1">+</button>
+                        <button onclick="deleteItem(this, '<%=item.itemId?._id%>')"
+                            class="text-red-500 hover:text-red-600 ml-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <%});%>
+
+
+                    <!-- Continue Shopping -->
+                    <a href="/" class="inline-block mt-4 text-blue-600 hover:underline font-medium">
+                        ← Continue Shopping
+                    </a>
+        </div>
+
+        <!-- PRICE SUMMARY -->
+        <div class="bg-white rounded-2xl shadow-md p-6 sticky top-10 h-fit">
+            <h3 class="text-xl font-semibold mb-4">Price Details</h3>
+
+            <div class="space-y-3 text-gray-700">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>₹10,497</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Discount</span>
+                    <span class="text-green-600">− ₹500</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Delivery Charges</span>
+                    <span class="text-green-600">Free</span>
+                </div>
+                <hr class="my-2">
+                <div class="flex justify-between font-semibold text-lg">
+                    <span>Total</span>
+                    <span>₹9,997</span>
+                </div>
+            </div>
+
+            <button onclick="placeOrder()" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition">
+                Place Order
+            </button>
+        </div>
+    </div>
+
+</body>
+<script>
+    function deleteItem(btn, id) {
+        fetch(`/cart/delete/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.ok) {
+                btn.closest('div.flex.items-center.justify-between').remove();
+            }
+        });
+    }
+    function dec(btn, id) {
+        fetch(`/cart/dec/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.ok) {
+                // btn.closest('div.flex.items-center.justify-between').remove();
+            }
+        });
+    }
+    function placeOrder() {
+        alert('Order placed successfully!');
+    }
+</script>
+
+</html>

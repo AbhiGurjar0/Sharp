@@ -26,17 +26,26 @@ router.post("/createProduct", async (req, res) => {
 //add to cart
 router.post("/cart/add", isLoggedIn, async (req, res) => {
   let { id, quantity } = req.body;
-  let item = await Product.findById(id);
-
-  await User.findByIdAndUpdate(
-    req.user.id,
-    {
-      $push: { cart: { itemId: item._id, quantity: quantity || 1 } },
-    },
-    {
-      new: true,
-    }
+  let cartItem = await User.findOne(
+    { _id: req.user.id, "cart.itemId": id },
+    { "cart.$": 1 }
   );
+
+  if (cartItem) {
+    let newQuantity = cartItem.cart[0].quantity + quantity;
+
+    await User.findOneAndUpdate(
+      { _id: req.user.id, "cart.itemId": id },
+      { $set: { "cart.$.quantity": newQuantity } },
+      { new: true }
+    );
+  } else {
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { cart: { itemId: id, quantity: 1 } } },
+      { new: true }
+    );
+  }
 
   res.json(`Added item ${id} with quantity ${quantity} to cart.`);
 });
@@ -70,11 +79,52 @@ router.get("/orders", isLoggedIn, async (req, res) => {
 });
 router.post("/cart/delete/:productId", isLoggedIn, async (req, res) => {
   let { productId } = req.params;
+
   await User.findByIdAndUpdate(
     req.user.id,
     { $pull: { cart: { itemId: productId } } },
     { new: true }
   );
   res.json(`Removed product ${productId} from cart.`);
+});
+
+router.post("/cart/dec/:id", isLoggedIn, async (req, res) => {
+  let { id } = req.params;
+
+  // Get the cart item
+  let cartItem = await User.findOne(
+    { _id: req.user.id, "cart.itemId": id },
+    { "cart.$": 1 }
+  );
+
+  if (!cartItem) {
+    return res.status(404).json("Item not found in cart");
+  }
+
+  let newQuantity = cartItem.cart[0].quantity - 1;
+  console.log(newQuantity);
+
+  if (newQuantity <= 0) {
+    // Remove item if quantity is 0
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { cart: { itemId: id } } },
+      { new: true }
+    );
+  } else {
+    // Decrement quantity
+    await User.findOneAndUpdate(
+      { _id: req.user.id, "cart.itemId": id },
+      { $set: { "cart.$.quantity": newQuantity } },
+      { new: true }
+    );
+  }
+
+  res.json(`Updated cart for product ${id}.`);
+});
+
+router.get("/cart", isLoggedIn, async (req, res) => {
+  let user = await User.findById(req.user.id).populate("cart.itemId");
+  res.render("cart", { cartItems: user.cart });
 });
 module.exports = router;
