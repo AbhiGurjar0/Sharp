@@ -44,15 +44,23 @@ router.post("/cart/add", isLoggedIn, async (req, res) => {
 //place order
 
 router.post("/createOrder", isLoggedIn, async (req, res) => {
-  let { products } = req.body;
-
+  let cartItems = await User.findById(req.user.id).populate("cart.itemId");
+  let products = cartItems.cart.map((cartItem) => {
+    return {
+      id: cartItem.itemId._id,
+      quantity: cartItem.quantity,
+      price: cartItem.itemId.price * cartItem.quantity,
+    };
+  });
   for (let i = 0; i < products.length; i++) {
     await Orders.create({
       user: req.user.id,
       price: products[i].price,
       product: products[i].id,
+      quantity: products[i].quantity,
     });
   }
+  await User.findByIdAndUpdate(req.user.id, { $set: { cart: [] } });
   res.json("Order created successfully.");
 });
 
